@@ -1,0 +1,15 @@
+- **bin/**: Compiled binaries and executables.
+- **cmd/http/**: Entry point for the HTTP server application.
+- **internal/**: Private application logic, not intended for external use.
+- **adapter/http/**: HTTP delivery layer (controllers, handlers).
+- **adapter/grpc/**: gRPC delivery layer.
+- **adapter/event/**: Event-driven adapters (e.g., message brokers).
+- **infrastructure/db/**: Database implementations and related infrastructure code.
+- **config/**: Configuration files and settings.
+- **pkg/logger/**: Logging utilities and abstractions.
+- **pkg/validator/**: Input validation utilities.
+- **test/**: Test files and test data.
+- **scripts/**: Helper scripts for development and deployment.
+- **proto/**: Protocol buffer definitions for gRPC or other services.
+
+- Technical Design : 
