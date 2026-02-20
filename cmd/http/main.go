@@ -21,9 +21,10 @@ func main() {
 		Address:  cfg.RedisAddr,
 		Password: cfg.RedisPassword,
 		DB:       cfg.RedisDB,
+		Cfg:      cfg,
 	})
 	internal := internal.NewInternalService(internal.InternalServiceParams{FetcherService: api, CacheService: redis})
-	handler := httpAdapter.NewHandler(httpAdapter.Params{FlightService: internal})
+	handler := httpAdapter.NewHandler(httpAdapter.Params{FlightService: internal, CacheService: redis})
 
 	log.Printf("Starting listening for request on port %d \n", cfg.Port)
 	http.ListenAndServe(":"+strconv.Itoa(cfg.Port), handler.InitRouter())

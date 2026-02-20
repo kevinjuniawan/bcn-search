@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"kevinjuniawan/bookcabin/config"
 	"kevinjuniawan/bookcabin/internal"
 	"log"
 	"time"
@@ -13,12 +14,14 @@ import (
 
 type CacheService struct {
 	Client *redis.Client
+	Cfg    *config.Config
 }
 
 type ServiceParams struct {
 	Address  string
 	Password string
 	DB       int
+	Cfg      *config.Config
 }
 
 func NewCacheService(ctx context.Context, params ServiceParams) *CacheService {
@@ -32,6 +35,7 @@ func NewCacheService(ctx context.Context, params ServiceParams) *CacheService {
 	}
 	return &CacheService{
 		Client: client,
+		Cfg:    params.Cfg,
 	}
 }
 
@@ -248,4 +252,16 @@ func makeKey(params internal.GetFlightsParams) (string, bool) {
 		return baseKey + ":" + MapSortTypeToKey[params.SortType], true
 	}
 	return "", false
+}
+
+func (c *CacheService) IsRequestLimiterExceeded(ctx context.Context, URI string) bool {
+	key := fmt.Sprintf("request_limiter:%s", URI)
+	counter := c.Client.Incr(ctx, key).Val()
+	if counter == 1 {
+		c.Client.Expire(ctx, key, c.Cfg.RequestLimiterTTL)
+	}
+	if counter > c.Cfg.RequestLimiterMax+1 {
+		return true
+	}
+	return false
 }

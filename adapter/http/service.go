@@ -10,15 +10,18 @@ import (
 
 type Handler struct {
 	flightService internal.InternalService
+	cacheService  ICache
 }
 
 type Params struct {
 	FlightService *internal.InternalService
+	CacheService  ICache
 }
 
 func NewHandler(p Params) *Handler {
 	return &Handler{
 		flightService: *p.FlightService,
+		cacheService:  p.CacheService,
 	}
 }
 
@@ -33,6 +36,11 @@ func (h *Handler) SearchFlights(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
 		WriteJSON(w, 400, NewResponse(err.Error(), internal.SearchResponse{}, params))
+		return
+	}
+
+	if h.cacheService.IsRequestLimiterExceeded(r.Context(), r.URL.String()) {
+		WriteJSON(w, 429, NewResponse("Too many requests", internal.SearchResponse{}, params))
 		return
 	}
 

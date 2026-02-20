@@ -12,6 +12,8 @@ services:
       - APP_ENV=production
       - MAX_RETRY_COUNT=3
       - RETRY_BACKOFF=200
+      - REQUEST_LIMITER_TTL=60s
+      - REQUEST_LIMITER_MAX=10
     networks:
       - bookcabin_network
     depends_on:
