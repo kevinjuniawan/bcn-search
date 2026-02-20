@@ -27,7 +27,7 @@ Request Body :
     "destination": "DPS",
     "departure_date": "2025-12-15",
     "cabin_class": "economy",
-    "sort_type": 3,
+    "sort_type": 3, // 0 Best value, 1 Lowest Price, 2 Highest Price, 3 Shortest duration, 4 Longest duration, 5 Departure time, 6 Arrival time
     "filter": {
         "airlines": ["Garuda", "Citilink"],
         "stopover": 0,

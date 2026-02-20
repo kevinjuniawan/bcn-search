@@ -101,6 +101,10 @@ func (p GetFlightsParams) Validate() error {
 		return errors.New("cabin class is invalid")
 	}
 
+	if p.SortType < 0 || p.SortType > 6 {
+		return errors.New("sort type is invalid")
+	}
+
 	if p.Filter != nil {
 		if p.Filter.TimeRange != nil && (p.Filter.TimeRange.Type == "" || p.Filter.TimeRange.From == "" || p.Filter.TimeRange.To == "") {
 			return errors.New("time range type, from, and to is invalid")
