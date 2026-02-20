@@ -15,6 +15,16 @@
 
 # API Doc
 
+## Installation
+
+Requirement:
+- Docker
+- Docker Compose
+
+Installation:
+- Clone this repository
+- Run `docker-compose up -d`
+
 ## SearchFlight API
 
 URI : /v1/search-flight
