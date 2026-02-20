@@ -12,4 +12,37 @@
 - **scripts/**: Helper scripts for development and deployment.
 - **proto/**: Protocol buffer definitions for gRPC or other services.
 
-- Technical Design : 
+
+# API Doc
+
+## SearchFlight API
+
+URI : /v1/search-flight
+Method : POST
+
+Request Body :
+```json
+{
+    "origin": "CGK",
+    "destination": "DPS",
+    "departure_date": "2025-12-15",
+    "cabin_class": "economy",
+    "sort_type": 3,
+    "filter": {
+        "airlines": ["Garuda", "Citilink"],
+        "stopover": 0,
+        "price": {
+            "lowest_price": 100000,
+            "highest_price": 1500000
+        },
+        "stop": 0,
+        "time_range":{
+            "type": "departure",
+            "from": "2025-12-15T00:00:00Z",
+            "to": "2025-12-15T23:59:59Z"
+        }
+    }
+}
+```
+
+## Technical Design : [Click Here](https://drive.google.com/file/d/16Ua99vXi1d9bgk3nZL5ZWBohBREQQv6q/view?usp=sharing)
